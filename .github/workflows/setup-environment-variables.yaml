@@ -1,0 +1,29 @@
+# setups environment variables
+# the workflow takes an environment input and sets up the environment variables accordingly
+# uses secrets from the repository vault.
+
+name: setup-environment-variables
+description: "Set up environment variables for the workflow"
+
+inputs:
+  environment:
+    required: true
+    type: string
+    options:
+      - prod
+      - dev
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Set up environment variables"
+      run: |
+        echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
+        echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+        echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
+        echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+        echo "AZ_TERRAFORM_BACKEND_STORAGEACCOUNT=${{ vars.AZ_TERRAFORM_BACKEND_STORAGEACCOUNT }}" >> $GITHUB_ENV
+        echo "AZ_TERRAFORM_BACKEND_RESOURCEGROUP=${{ vars.AZ_TERRAFORM_BACKEND_RESOURCEGROUP }}" >> $GITHUB_ENV
+        echo "AZ_BACKEND_CONTAINER_NAME=${{ inputs.environment }}" >> $GITHUB_ENV
+        echo "AZ_OWNER_OBJECT_ID=${{ secrets.AZ_OWNER_OBJECT_ID }}" >> $GITHUB_ENV
+        echo "GH_TOKEN=${{ secrets.ANTISPAM_GITHUB_TOKEN }}" >> $GITHUB_ENV
