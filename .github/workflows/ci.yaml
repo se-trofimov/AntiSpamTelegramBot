@@ -9,7 +9,7 @@ jobs:
   deploy-infrastracture-to-dev:
     steps:
       - name: Setup Environment Variables
-        uses: ./.github/setup-environment-variables
+        uses: ./.github/actions/setup-environment-variables
         with:
           environment: dev
 
