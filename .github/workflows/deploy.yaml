@@ -1,22 +1,33 @@
 name: deploy
 
 on:
-  repository_dispatch:
-    types: [trigger-deploy-workflow]
+  workflow_dispatch:
+    inputs:
+      resource_group_name:
+        description: "The name of the resource group"
+        required: true
+        type: string
+      function_app_name:
+        description: "The name of the function app"
+        required: true
+        type: string
 
 permissions:
   id-token: write
   contents: read
 
 env:
-  AZURE_FUNCTIONAPP_NAME: "fn-ai-tg-bot-dev"
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./src/bot/TelegramAntiSpamBot.Functions"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./bot/TelegramAntiSpamBot.Functions"
   DOTNET_VERSION: "9.0.x"
   DOTNET_INSTALL_DIR: "./.dotnet"
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
     environment: dev
     steps:
       - name: "Checkout"
@@ -42,17 +53,17 @@ jobs:
       - name: Zip published output
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          zip -r ../app.zip .
+          zip -r app.zip .
           popd
 
       - name: Upload publishing artifact
         uses: actions/upload-artifact@v3
         with:
           name: app
-          path: ./${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/app.zip
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/app.zip
 
       - name: Deploy to Azure Function App
         run: |
-          RESOURCE_GROUP_NAME=${{ github.event.client_payload.resource_group_name }}
-          FUNCTION_APP_NAME=${{ github.event.client_payload.function_app_name }}
-          az functionapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $FUNCTION_APP_NAME --src app.zip
+          RESOURCE_GROUP_NAME=${{ github.event.inputs.resource_group_name }}
+          FUNCTION_APP_NAME=${{ github.event.inputs.function_app_name }}
+          az functionapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $FUNCTION_APP_NAME --src ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output/app.zip
