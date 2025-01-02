@@ -6,8 +6,15 @@ on:
       - main
 
 jobs:
-  deploy-infrastructure-to-dev:
+  deploy-openai-infrastructure-to-dev:
     uses: ./.github/workflows/openai-infrastructure.yaml
+    with:
+      environment: dev
+    secrets: inherit
+
+  deploy-main-infrastructure-to-dev:
+    needs: deploy-openai-infrastructure-to-dev
+    uses: ./.github/workflows/main-infrastructure.yaml
     with:
       environment: dev
     secrets: inherit
