@@ -24,12 +24,17 @@ main-infrastructure:
     run:
       working-directory: src/infrastructure
 
-  needs:
-    - openaiservices-infrastructure
-
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Verify Inputs
+      run: |
+        allowed_environments=("dev" "prod")
+        if [[ ! " ${allowed_environments[@]} " =~ " ${{ inputs.environment }} " ]]; then
+          echo "Invalid environment: ${{ inputs.environment }}. Allowed values are: ${allowed_environments[@]}"
+          exit 1
+        fi
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
