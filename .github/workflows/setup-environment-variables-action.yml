@@ -1,17 +1,5 @@
-# setups environment variables
-# the workflow takes an environment input and sets up the environment variables accordingly
-# uses secrets from the repository vault.
-
 name: setup-environment-variables
 description: "Set up environment variables for the workflow"
-
-inputs:
-  environment:
-    required: true
-    type: string
-    options:
-      - prod
-      - dev
 
 runs:
   using: "composite"
