@@ -1,4 +1,4 @@
-name: infrastructure
+name: openai-infrastructure
 
 on:
   workflow_call:

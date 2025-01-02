@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-infrastructure-to-dev:
-    uses: ./.github/workflows/infrastructure.yaml
+    uses: ./.github/workflows/openai-infrastructure.yaml
     with:
       environment: dev
     secrets: inherit
