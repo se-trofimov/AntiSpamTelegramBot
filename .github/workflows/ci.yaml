@@ -7,11 +7,11 @@ on:
 
 jobs:
   deploy-infrastracture-to-dev:
-  steps:
-    - name: Setup Environment Variables
-      uses: ./.github/setup-environment-variables
-      with:
-        environment: dev
+    steps:
+      - name: Setup Environment Variables
+        uses: ./.github/setup-environment-variables
+        with:
+          environment: dev
 
-    - name: Check
-      run: echo ${{ env.AZ_TERRAFORM_BACKEND_RESOURCEGROUP }}
+      - name: Check
+        run: echo ${{ env.AZ_TERRAFORM_BACKEND_RESOURCEGROUP }}
