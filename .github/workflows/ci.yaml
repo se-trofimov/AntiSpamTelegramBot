@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy-infrastracture-to-dev:
-    uses: ./.github/workflows/infrastracture.yaml
+  deploy-infrastructure-to-dev:
+    uses: ./.github/workflows/infrastructure.yaml
     with:
       environment: dev
