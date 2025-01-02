@@ -7,10 +7,6 @@ on:
         required: true
         type: string
 #env:
-#   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-#   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-#   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-#   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
 
 #   # Configuration for Terraform backend
 #   AZ_TERRAFORM_BACKEND_STORAGEACCOUNT: ${{ vars.AZ_TERRAFORM_BACKEND_STORAGEACCOUNT }}
@@ -50,6 +46,12 @@ jobs:
 
       - name: Terraform Init
         env:
+          # service principal credentials
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          # backend configuration
           AZ_TERRAFORM_BACKEND_STORAGEACCOUNT: ${{ vars.AZ_TERRAFORM_BACKEND_STORAGEACCOUNT }}
           AZ_TERRAFORM_BACKEND_RESOURCEGROUP: ${{ vars.AZ_TERRAFORM_BACKEND_RESOURCEGROUP }}
           AZ_BACKEND_CONTAINER_NAME: ${{ inputs.environment }}
