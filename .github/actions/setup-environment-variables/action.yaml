@@ -5,6 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: "Set up environment variables"
+      shell: bash
       run: |
         echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
         echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
