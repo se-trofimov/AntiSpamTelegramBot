@@ -9,6 +9,9 @@ jobs:
   deploy-infrastracture-to-dev:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup Environment Variables
         uses: ./.github/actions/setup-environment-variables
         with:
