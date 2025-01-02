@@ -7,17 +7,7 @@ on:
 
 jobs:
   deploy-infrastracture-to-dev:
-    runs-on: ubuntu-latest
-    environment: dev
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Environment Variables
-        uses: ./.github/actions/setup-environment-variables
-        with:
-          environment: dev
-
-      - name: Check
-        run: echo ${{ env.AZ_TERRAFORM_BACKEND_RESOURCEGROUP }}
+    uses: ./.github/workflows/infrastracture.yaml
+    with:
+      environment: dev
+  secrets: inherit
