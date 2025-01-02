@@ -6,9 +6,6 @@ on:
       environment:
         required: true
         type: string
-        options:
-          - prod
-          - dev
 
 # env:
 #   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
@@ -34,7 +31,16 @@ jobs:
     defaults:
       run:
         working-directory: src/infrastructure/openai
+
     steps:
+      - name: Verify Inputs
+        run: |
+          allowed_environments=("dev" "prod")
+          if [[ ! " ${allowed_environments[@]} " =~ " ${inputs.environment} " ]]; then
+            echo "Invalid environment: ${inputs.environment}. Allowed values are: ${allowed_environments[@]}"
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
 
