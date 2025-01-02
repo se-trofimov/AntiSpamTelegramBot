@@ -16,7 +16,7 @@ env:
 #   GH_TOKEN: ${{ secrets.ANTISPAM_GITHUB_TOKEN }}
 
 jobs:
-main-infrastructure:
+  main-infrastructure:
   environment: ${{ inputs.environment }}
   runs-on: ubuntu-latest
 
